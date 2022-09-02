@@ -20,19 +20,18 @@ public class MainApp {
 		theAccountDAO.addAccount();
 		
 		Account myAccount = new Account();
-		theAccountDAO.addAccount(myAccount);
-
-		theAccountDAO.addAccount(myAccount, true);
-		
-		theAccountDAO.doWork();
+		myAccount.setLevel("Platinum");
+		myAccount.setName("Ronaldo");
 		
 		theAccountDAO.setName("ABC");
 		theAccountDAO.setServiceCode("ABC code");
 		theAccountDAO.getName();
 		theAccountDAO.getServiceCode();
+		theAccountDAO.addAccount(myAccount);
+		theAccountDAO.addAccount(myAccount, true);
+		theAccountDAO.doWork();
 		
 		theMembershipDAO.addMember();
-		
 		theMembershipDAO.goToSleep();
 		
 //		close the context
