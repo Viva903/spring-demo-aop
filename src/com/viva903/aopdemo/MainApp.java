@@ -19,16 +19,14 @@ public class MainApp {
 //		call the business method
 		theAccountDAO.addAccount();
 		
-		theMembershipDAO.addMember();
-		
-		theAccountDAO.addAccount();
-		
 		Account myAccount = new Account();
 		theAccountDAO.addAccount(myAccount);
 
 		theAccountDAO.addAccount(myAccount, true);
 		
 		theAccountDAO.doWork();
+		
+		theMembershipDAO.addMember();
 		
 		theMembershipDAO.goToSleep();
 		
