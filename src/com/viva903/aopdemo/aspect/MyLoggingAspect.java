@@ -1,6 +1,9 @@
 package com.viva903.aopdemo.aspect;
 
+import java.util.List;
+
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -35,15 +38,49 @@ public class MyLoggingAspect {
 		System.out.println("Method Signature : " + methodSignature);
 //		display the method arguments
 		Object[] args = theJoinPoint.getArgs();
-		for (Object tempArg :args) {
+		for (Object tempArg : args) {
 			System.out.println("Method arguments : " + tempArg);
 			if (tempArg instanceof Account) {
-				
-				//downcast and print Account object specific stuff
+
+				// downcast and print Account object specific stuff
 				Account account = (Account) tempArg;
 				System.out.println("account name : " + account.getName());
 				System.out.println("account level : " + account.getLevel());
 			}
+		}
+
+	}
+
+	@AfterReturning(
+			pointcut = "execution(* com.viva903.aopdemo.dao.AccountDAO.findAccounts(..))", 
+			returning = "result")
+	public void afterReturningFindAccountsAdvice(JoinPoint theJoinPoint, List<Account> result) {
+
+//		print out which method we are advising on
+		String method = theJoinPoint.getSignature().toShortString();
+		System.out.println("\n==========>>>>>>>> Executing @AfterReturning method : " + method);
+
+		
+//		print out the results of the method call
+		System.out.println("\n==========>>>>>>>> Result is : " + result);
+		
+//		post process data and modify
+		
+//		convert the account names to uppercase
+		convertAccountNamesToUpperCase(result);
+		
+//		print out the results of the method call
+		System.out.println("\n==========>>>>>>>> Result is : " + result);
+	}
+
+	private void convertAccountNamesToUpperCase(List<Account> result) {
+//		loop through account
+//		get uppercase version of name
+//		update the name to the respective account
+		
+		for (Account tempAccount : result) {
+			String toUpperCaseName = tempAccount.getName().toUpperCase();
+			tempAccount.setName(toUpperCaseName);
 		}
 		
 	}
