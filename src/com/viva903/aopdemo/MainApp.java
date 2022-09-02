@@ -26,6 +26,11 @@ public class MainApp {
 		
 		theAccountDAO.doWork();
 		
+		theAccountDAO.setName("ABC");
+		theAccountDAO.setServiceCode("ABC code");
+		theAccountDAO.getName();
+		theAccountDAO.getServiceCode();
+		
 		theMembershipDAO.addMember();
 		
 		theMembershipDAO.goToSleep();
