@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -51,24 +52,21 @@ public class MyLoggingAspect {
 
 	}
 
-	@AfterReturning(
-			pointcut = "execution(* com.viva903.aopdemo.dao.AccountDAO.findAccounts(..))", 
-			returning = "result")
+	@AfterReturning(pointcut = "execution(* com.viva903.aopdemo.dao.AccountDAO.findAccounts(..))", returning = "result")
 	public void afterReturningFindAccountsAdvice(JoinPoint theJoinPoint, List<Account> result) {
 
 //		print out which method we are advising on
 		String method = theJoinPoint.getSignature().toShortString();
 		System.out.println("\n==========>>>>>>>> Executing @AfterReturning method : " + method);
 
-		
 //		print out the results of the method call
 		System.out.println("\n==========>>>>>>>> Result is : " + result);
-		
+
 //		post process data and modify
-		
+
 //		convert the account names to uppercase
 		convertAccountNamesToUpperCase(result);
-		
+
 //		print out the results of the method call
 		System.out.println("\n==========>>>>>>>> Result is : " + result);
 	}
@@ -77,12 +75,26 @@ public class MyLoggingAspect {
 //		loop through account
 //		get uppercase version of name
 //		update the name to the respective account
-		
+
 		for (Account tempAccount : result) {
 			String toUpperCaseName = tempAccount.getName().toUpperCase();
 			tempAccount.setName(toUpperCaseName);
 		}
+
+	}
+
+	@AfterThrowing(
+			pointcut = "execution(* com.viva903.aopdemo.dao.AccountDAO.findAccounts(..))",
+			throwing = "e")
+	public void afterThrowingFindAccountsAdvice(JoinPoint theJoinPoint, Throwable e) {
+//		print out which method we are advising on 
+//		log the exception
+		String methodSignature = theJoinPoint.getSignature().toShortString();
+		System.out.println("\n==========>>>>>>>> Executing @AfterThrowing method : " + methodSignature);
 		
+		System.out.println("\n==========>>>>>>>> Logged Exception is : " + e);
+		
+
 	}
 
 }

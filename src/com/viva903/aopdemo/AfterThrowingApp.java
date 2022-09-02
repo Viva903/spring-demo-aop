@@ -6,7 +6,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import com.viva903.aopdemo.dao.AccountDAO;
 
-public class AfterReturningApp {
+public class AfterThrowingApp {
 
 	public static void main(String[] args) {
 
@@ -16,10 +16,20 @@ public class AfterReturningApp {
 //		get the bean from spring container
 		AccountDAO theAccountDAO = context.getBean("accountDAO", AccountDAO.class);
 
-		List<Account> theListOfAccounts = theAccountDAO.findAccounts(false);
+		List<Account> theListOfAccounts = null;
+		
+		
+		try {
+//			add boolean flag to simulate exceptions
+			boolean tripWire = true;
+			theListOfAccounts =	theAccountDAO.findAccounts(tripWire);
+		} catch (Exception e) {
+			System.out.println("\n\nMain program .. caught exception " + e);
+//			e.printStackTrace();
+		}
 		
 //		display the accounts
-		System.out.println("\n\nMain Program: AfterReturningApp");
+		System.out.println("\n\nMain Program: AfterThrowingApp");
 		System.out.println("----");
 		System.out.println(theListOfAccounts + "\n");
 		
