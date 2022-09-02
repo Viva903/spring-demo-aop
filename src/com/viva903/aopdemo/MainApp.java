@@ -3,6 +3,7 @@ package com.viva903.aopdemo;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.viva903.aopdemo.dao.AccountDAO;
+import com.viva903.aopdemo.dao.MembershipDAO;
 
 public class MainApp {
 
@@ -12,11 +13,25 @@ public class MainApp {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(DemoConfig.class);
 
 //		get the bean from spring container
-		AccountDAO theAccountDAO = context.getBean("AccountDAO", AccountDAO.class);
+		AccountDAO theAccountDAO = context.getBean("accountDAO", AccountDAO.class);
+		MembershipDAO theMembershipDAO = context.getBean("membershipDAO", MembershipDAO.class);
 
 //		call the business method
 		theAccountDAO.addAccount();
+		
+		theMembershipDAO.addMember();
+		
+		theAccountDAO.addAccount();
+		
+		Account myAccount = new Account();
+		theAccountDAO.addAccount(myAccount);
 
+		theAccountDAO.addAccount(myAccount, true);
+		
+		theAccountDAO.doWork();
+		
+		theMembershipDAO.goToSleep();
+		
 //		close the context
 		context.close();
 	}
