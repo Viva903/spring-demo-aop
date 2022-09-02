@@ -3,6 +3,7 @@ package com.viva903.aopdemo.aspect;
 import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
@@ -83,18 +84,21 @@ public class MyLoggingAspect {
 
 	}
 
-	@AfterThrowing(
-			pointcut = "execution(* com.viva903.aopdemo.dao.AccountDAO.findAccounts(..))",
-			throwing = "e")
+	@AfterThrowing(pointcut = "execution(* com.viva903.aopdemo.dao.AccountDAO.findAccounts(..))", throwing = "e")
 	public void afterThrowingFindAccountsAdvice(JoinPoint theJoinPoint, Throwable e) {
 //		print out which method we are advising on 
 //		log the exception
 		String methodSignature = theJoinPoint.getSignature().toShortString();
 		System.out.println("\n==========>>>>>>>> Executing @AfterThrowing method : " + methodSignature);
-		
-		System.out.println("\n==========>>>>>>>> Logged Exception is : " + e);
-		
 
+		System.out.println("\n==========>>>>>>>> Logged Exception is : " + e);
+
+	}
+
+	@After("execution(* com.viva903.aopdemo.dao.AccountDAO.findAccounts(..))")
+	public void afterFinallyFindAccountsAdvice(JoinPoint theJoinPoint) {
+		String methodSignature = theJoinPoint.getSignature().toShortString();
+		System.out.println("\n==========>>>>>>>> Executing @After(finally) method : " + methodSignature);
 	}
 
 }
