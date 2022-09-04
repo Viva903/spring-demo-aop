@@ -22,9 +22,9 @@ import com.viva903.aopdemo.AroundApp;
 @Component
 @Order(-1)
 public class MyLoggingAspect {
-	
+
 	private Logger mylogger = Logger.getLogger(getClass().getName());
-	
+
 //	this is where you will add all the related advices for logging
 //	let's start with an @Before Advice
 
@@ -83,7 +83,6 @@ public class MyLoggingAspect {
 //		loop through account
 //		get uppercase version of name
 //		update the name to the respective account
-
 		for (Account tempAccount : result) {
 			String toUpperCaseName = tempAccount.getName().toUpperCase();
 			tempAccount.setName(toUpperCaseName);
@@ -113,17 +112,23 @@ public class MyLoggingAspect {
 
 		String methodSignature = theProceedingJoinPoint.getSignature().toShortString();
 		mylogger.info("\n==========>>>>>>>> Executing @Around method : " + methodSignature);
-		
+
 //		get begin time stamp
 		long begin = System.currentTimeMillis();
 //		execute the method
-		Object result = theProceedingJoinPoint.proceed();
+		Object result = null;
+		try {
+			result = theProceedingJoinPoint.proceed();
+		} catch (Throwable e) {
+			mylogger.warning(e.getMessage());
+			throw e;
+		}
 //		get end time stamp
 		long end = System.currentTimeMillis();
 //		print out the time difference
 		long duration = end - begin;
 		mylogger.info("\n==========>>>>>>>> Duration + " + duration / 1000.0 + " second(s)");
-		
+
 		return result;
 	}
 

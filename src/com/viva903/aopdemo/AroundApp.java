@@ -20,7 +20,8 @@ public class AroundApp {
 		mylogger.info("\nMain Program: @Around App");
 		mylogger.info("Calling getFortune()");
 		
-		String data = theTrafficFortuneService.getFortune();
+		boolean tripWire = true;
+		String data = theTrafficFortuneService.getFortune(tripWire);
 
 		mylogger.info("\nMy fortune is: " + data);
 		
